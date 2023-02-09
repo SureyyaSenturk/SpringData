@@ -1,27 +1,32 @@
 package service;
 
 import entity.*;
-import org.springframework.beans.CachedIntrospectionResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.AddressRepository;
 import repository.BookRepository;
+import repository.LanguageRepository;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class BookService {
     private final BookRepository bookRepository;
     private final AddressRepository addressRepository;
+    private final LanguageRepository languageRepository;
+private final LanguageService languageService;
 @Autowired
-    public BookService(BookRepository bookRepository, AddressRepository addressRepository) {
+    public BookService(BookRepository bookRepository, AddressRepository addressRepository,
+                       LanguageRepository languageRepository, LanguageService languageService) {
         this.bookRepository = bookRepository;
         this.addressRepository = addressRepository;
+        this.languageRepository = languageRepository;
+        this.languageService = languageService;
     }
 
-
     public void addBook(){
-        Language language=new Language("Turkish");
+        Language language=languageService.addLAnguage();
         Author author=new Author("Fatma","Şah",26);
         Address address= new Address("MuratPaşa",324345);
         author.setAddress(address);
@@ -30,15 +35,16 @@ public class BookService {
         Book book=new Book("Book","344",author,category,language,publisher);
         bookRepository.save(book);
     }
-    public void findBook(Long id){
-    bookRepository.findById(id);
+    public Book findBook(Long id){
+
+    return bookRepository.findById(id).get();
     }
     public void deleteBook(Long id){
         Optional<Book> deleteItem =bookRepository.findById(id);
-        bookRepository.delete(deleteItem.orElse(new Book("Book","344",new Author(),new Category(),new Language(),new Publisher())));
+        bookRepository.delete(deleteItem.orElseThrow(()->new RuntimeException("SİLİNECEK BOOK BULUNAMADI!!")));
     }
 
-    public void findByNameLike(String name){
-    bookRepository.findBynameLike(name);
+    public Set<Book> findByNameLike(String name) {
+   return bookRepository.findBynameLike(name);
     }
 }

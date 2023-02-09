@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import repository.AuthorRepository;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AuthorService {
@@ -24,19 +25,19 @@ public class AuthorService {
     }
         public void deleteAuthor(long id){
             Optional<Author> deleteItem= authorRepository.findById(id);
-            authorRepository.delete(deleteItem.orElse(new Author()));
+            authorRepository.delete(deleteItem.orElseThrow(()->new RuntimeException("SİLİNECEK AUTHOR BULUNAMADI!")));
         }
 
-        public void findAddress(long id){
-        authorRepository.findById(id);
+        public Author findAuthor(long id){
+        return authorRepository.findById(id).get();
 
         }
-        public void findByAge(int age){
-    authorRepository.findByAgeGreaterThan(age);
+        public Set<Author> findByAge(int age){
+   return  (authorRepository.findByAgeGreaterThan(age));
         }
 
-        public void findByNameLike(String name){
-    authorRepository.findBynameLike(name);
+        public Set<Author> findByNameLike(String name){
+         return authorRepository.findBynameLike(name);
         }
 
         }

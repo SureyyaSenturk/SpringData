@@ -25,13 +25,13 @@ public class AddressService {
         addressRepository.save(address);
     }
 
-    public void findAddress(Long id){
-        System.out.println(addressRepository.findById(id));
+    public Address findAddress(Long id){
+        return addressRepository.findById(id).get();
     }
 
     public void deleteAddress(Long id){
      Optional<Address> deleteItem= addressRepository.findById(id);
-     addressRepository.delete(deleteItem.orElse(new Address()));
+     addressRepository.delete(deleteItem.orElseThrow(()->new RuntimeException("SİLİNECEK ADDRESS BULUNAMADI!")));
     }
 
    public void findByStreetOrZipcode(String street,String zipcode){

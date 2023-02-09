@@ -16,20 +16,20 @@ public class LanguageService {
         this.languageRepository = languageRepository;
     }
 
-    public void addLAnguage() {
+    public Language addLAnguage() {
         Language language=new Language("English");
         Book book=new Book();
         book.setLanguage(language);
-        languageRepository.save(language);
+       return languageRepository.save(language);
 }
 
-public void findyById(long id){
-    languageRepository.findById(id);
+public Language findyById(long id) {
+  return  languageRepository.findById(id).get();
 }
 
 public void deleteLanguage(long id){
     Optional<Language> deleteItem= languageRepository.findById(id);
-    languageRepository.delete(deleteItem.orElse(new Language()));
+    languageRepository.delete(deleteItem.orElseThrow(()->new RuntimeException("SİLİNECEK LANGUAGE BULUNAMADI!!")));
 }
 
 }

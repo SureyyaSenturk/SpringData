@@ -17,20 +17,20 @@ public class PublisherService {
         this.publisherRepository = publisherRepository;
     }
 
-    public void addPublisher(){
+    public Publisher addPublisher(){
         Publisher publisher=new Publisher();
         Book book=new Book();
         book.setPublisher(publisher);
-        publisherRepository.save(publisher);
+      return  publisherRepository.save(publisher);
     }
 
-    public void findById(long id){
-    publisherRepository.findById(id);
+    public Publisher findById(long id){
+    return publisherRepository.findById(id).get();
 
     }
 
     public void deletePublisher(long id){
         Optional<Publisher> deleteItem= publisherRepository.findById(id);
-        publisherRepository.delete(deleteItem.orElse(new Publisher()));
+        publisherRepository.delete(deleteItem.orElseThrow(()->new RuntimeException("SİLİNECEK PUBLİSHER BULUNAMADI!!")));
     }
 }

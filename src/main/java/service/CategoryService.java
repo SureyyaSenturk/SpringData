@@ -28,12 +28,12 @@ public class CategoryService {
     return (ArrayList<Category>) categoryRepository.findAll();
  }
 
- public void findById(Long id){
-    categoryRepository.findById(id);
+ public Category findById(Long id){
+  return  categoryRepository.findById(id).get();
 
  }
  public void deleteCategory(Long id){
      Optional<Category> deleteItem=categoryRepository.findById(id);
-     categoryRepository.delete(deleteItem.orElse(new Category()));
+     categoryRepository.delete(deleteItem.orElseThrow(()->new RuntimeException("SİLİNECEK CATEGORY BULUNAMADI!!")));
  }
 }
