@@ -15,18 +15,18 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AddressRepository addressRepository;
     private final LanguageRepository languageRepository;
-private final LanguageService languageService;
+
 @Autowired
     public BookService(BookRepository bookRepository, AddressRepository addressRepository,
-                       LanguageRepository languageRepository, LanguageService languageService) {
+                       LanguageRepository languageRepository) {
         this.bookRepository = bookRepository;
         this.addressRepository = addressRepository;
         this.languageRepository = languageRepository;
-        this.languageService = languageService;
+
     }
 
     public void addBook(){
-        Language language=languageService.addLAnguage();
+       Language language=new Language("English");
         Author author=new Author("Fatma","Şah",26);
         Address address= new Address("MuratPaşa",324345);
         author.setAddress(address);
